@@ -5,15 +5,13 @@ class Parcel
     private $height;
     private $width;
     private $weight;
-    private $cost;
 
-    function __construct($box_length, $box_height, $box_width, $box_weight, $box_cost)
+    function __construct($box_length, $box_height, $box_width, $box_weight)
     {
       $this->length = $box_length;
       $this->height = $box_height;
       $this->width = $box_width;
       $this->weight = $box_weight;
-      $this->cost = $box_cost;
     }
 
     function getLength()
@@ -36,11 +34,6 @@ class Parcel
       return $this->weight;
     }
 
-    function getCost()
-    {
-      return $this->cost;
-    }
-
     function setLength($new_length)
     {
       $this->length = (integer) $new_length;
@@ -60,18 +53,35 @@ class Parcel
     {
       $this->weight = (integer) $new_weight;
     }
-
-    function setCost($new_cost)
-    {
-      $this->cost = (float) $new_cost;
-    }
 }
-  $parcel_sides = array($length, $height, $width);
+  $parcel_dimensions = array($length, $height, $width);
 
-  function volume($parcel_sides)
+  function volume($parcel_dimensions)
   {
-    return getLength() * getWidth() * getHeight();
+    return $_GET["length"] * $_GET["height"] * $_GET["width"];
   }
 
-
+  function costToShip()
+  {
+    return volume() * weight / 100;
+  }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parcel Shipping Cost Homepage</title>
+</head>
+<body>
+    <h1>Your Parcel Shipping Cost<h1>
+    <ul>
+      <?php
+        $total_cost = $parcel->costToShip();
+        echo "<li> Cost: $$total_cost </li>";
+        echo "<li> Volume: $total_volume cubic inches  </li>";
+        echo "<li> Dimensions: $total_length X $total_height X $total_width  </li>";
+        echo "<li> Weight: $total_weight </li>";
+      ?>
+    </ul>
+</body>
+</html>
