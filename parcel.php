@@ -53,18 +53,23 @@ class Parcel
     {
       $this->weight = (integer) $new_weight;
     }
-}
-  $parcel_dimensions = array($length, $height, $width);
 
-  function volume($parcel_dimensions)
+  // $parcel_dimensions = array($length, $height, $width);
+
+  function volume()
   {
-    return $_GET["length"] * $_GET["height"] * $_GET["width"];
+    return $this->length * $this->height * $this->width;
   }
 
   function costToShip()
   {
-    return volume() * weight / 100;
+    $total_volume = $this->volume();
+    return $total_volume * $this->weight / 100000;
   }
+}
+
+$new_parcel = new Parcel($_GET["length"], $_GET["height"], $_GET["width"], $_GET["weight"]);
+
 ?>
 
 <!DOCTYPE html>
@@ -73,14 +78,19 @@ class Parcel
     <title>Parcel Shipping Cost Homepage</title>
 </head>
 <body>
-    <h1>Your Parcel Shipping Cost<h1>
+    <h1>Your Parcel Shipping Cost</h1>
     <ul>
       <?php
-        $total_cost = $parcel->costToShip();
+        $total_length = $new_parcel->getLength();
+        $total_height = $new_parcel->getHeight();
+        $total_width = $new_parcel->getWidth();
+        $total_weight = $new_parcel->getWeight();
+        $total_volume = $new_parcel->volume();
+        $total_cost = $new_parcel->costToShip();
         echo "<li> Cost: $$total_cost </li>";
         echo "<li> Volume: $total_volume cubic inches  </li>";
-        echo "<li> Dimensions: $total_length X $total_height X $total_width  </li>";
-        echo "<li> Weight: $total_weight </li>";
+        echo "<li> Dimensions: $total_length X $total_height X $total_width inches </li>";
+        echo "<li> Weight: $total_weight pounds</li>";
       ?>
     </ul>
 </body>
